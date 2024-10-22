@@ -107,7 +107,7 @@ class Docker {
             ${ImageEnvironmentFactory.getEnvVarString(parameters)} \
             --env GITHUB_WORKSPACE=c:${dockerWorkspacePath} \
             ${gitPrivateToken ? `--env GIT_PRIVATE_TOKEN="${gitPrivateToken}"` : ''} \
-            ${sshAgent ? '--env SSH_AUTH_SOCK=/ssh-agent' : ''} \
+            ${sshAgent ? '--env SSH_AUTH_SOCK=C:/ssh-agent' : ''} \
             --volume "${workspace}":"c:${dockerWorkspacePath}" \
             --volume "c:/regkeys":"c:/regkeys" \
             --volume "C:/Program Files/Microsoft Visual Studio":"C:/Program Files/Microsoft Visual Studio" \
@@ -120,13 +120,17 @@ class Docker {
             --volume "${actionFolder}/BlankProject":"c:/BlankProject" \
             --cpus=${dockerCpuLimit} \
             --memory=${dockerMemoryLimit} \
-            ${sshAgent ? `--volume ${sshAgent}:/ssh-agent` : ''} \
+            ${sshAgent ? `--volume ${sshAgent}:C:/ssh-agent` : ''} \
             ${
               sshAgent && !sshPublicKeysDirectoryPath
-                ? '--volume C:/Users/runner/.ssh/known_hosts:/root/.ssh/known_hosts:ro'
+                ? '--volume "C:/Users/runneradmin/.ssh/known_hosts":"C:/Users/ContainerAdministrator/.ssh/known_hosts:ro"'
                 : ''
             } \
-            ${sshPublicKeysDirectoryPath ? `--volume ${sshPublicKeysDirectoryPath}:/root/.ssh:ro` : ''} \
+            ${
+              sshPublicKeysDirectoryPath
+                ? `--volume "${sshPublicKeysDirectoryPath}":"C:/Users/runneradmin/.ssh:ro"`
+                : ''
+            } \
             --isolation=${dockerIsolationMode} \
             ${image} \
             powershell c:/steps/entrypoint.ps1`;
