@@ -97,6 +97,8 @@ class Docker {
       dockerCpuLimit,
       dockerMemoryLimit,
       dockerIsolationMode,
+      sshAgent,
+      sshPublicKeysDirectoryPath,
     } = parameters;
 
     return `docker run \
