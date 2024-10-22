@@ -120,16 +120,14 @@ class Docker {
             --volume "${actionFolder}/BlankProject":"c:/BlankProject" \
             --cpus=${dockerCpuLimit} \
             --memory=${dockerMemoryLimit} \
-            ${sshAgent ? `--volume ${sshAgent}:C:/ssh-agent` : ''} \
+            ${sshAgent ? `--volume "${sshAgent}":"C:/ssh-agent"` : ''} \
             ${
               sshAgent && !sshPublicKeysDirectoryPath
-                ? '--volume "C:/Users/runneradmin/.ssh/known_hosts":"C:/Users/ContainerAdministrator/.ssh/known_hosts:ro"'
+                ? '--volume "C:/Users/runneradmin/.ssh/known_hosts":"C:/Users/ContainerAdministrator/.ssh/known_hosts"'
                 : ''
             } \
             ${
-              sshPublicKeysDirectoryPath
-                ? `--volume "${sshPublicKeysDirectoryPath}":"C:/Users/runneradmin/.ssh:ro"`
-                : ''
+              sshPublicKeysDirectoryPath ? `--volume "${sshPublicKeysDirectoryPath}":"C:/Users/runneradmin/.ssh"` : ''
             } \
             --isolation=${dockerIsolationMode} \
             ${image} \
