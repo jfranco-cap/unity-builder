@@ -121,7 +121,7 @@ class Docker {
             ${sshAgent ? `--volume ${sshAgent}:/ssh-agent` : ''} \
             ${
               sshAgent && !sshPublicKeysDirectoryPath
-                ? '--volume C:/Users/runneradmin/.ssh/known_hosts:C:/Users/runneradmin/.ssh/known_hosts:ro'
+                ? '--volume C:/Users/runner/.ssh/known_hosts:/root/.ssh/known_hosts:ro'
                 : ''
             } \
             ${sshPublicKeysDirectoryPath ? `--volume ${sshPublicKeysDirectoryPath}:/root/.ssh:ro` : ''} \
