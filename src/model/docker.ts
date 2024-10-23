@@ -127,7 +127,9 @@ class Docker {
                 : ''
             } \
             ${
-              sshPublicKeysDirectoryPath ? `--volume "${sshPublicKeysDirectoryPath}":"C:/Users/runneradmin/.ssh"` : ''
+              sshPublicKeysDirectoryPath
+                ? `--volume "${sshPublicKeysDirectoryPath}":"C:/Users/ContainerAdministrator/.ssh"`
+                : ''
             } \
             --isolation=${dockerIsolationMode} \
             ${image} \
